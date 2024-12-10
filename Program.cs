@@ -1,11 +1,9 @@
 using AWS_S3.Data;
 using AWS_S3.Data.Models;
 using AWS_S3.Repository;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -42,7 +40,17 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 // CORS (Optional: Modify based on your requirements)
-builder.Services.AddCors();
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -57,7 +65,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("CorsPolicy");
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -66,7 +74,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.MapFallbackToFile("index.html");
+app.MapFallbackToFile("index 1.html");
 
 app.MapControllers();
 

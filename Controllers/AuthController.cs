@@ -2,7 +2,6 @@
 using AWS_S3.Data.Models;
 using AWS_S3.Repository;
 using AWS_S3.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,7 +26,7 @@ namespace AWS_S3.Controllers
             appuserID = (appuserID == null || appuserID == 0) ? 1 : appuserID + 1;
             var user = new ApplicationUser
             {
-                UserName = model.Username,
+                UserName = model.Email,
                 Email = model.Email,
                 CreatedBy = TrackUser.AppUserID(),
                 CreatedDateTime = DateTimeOffset.Now,
@@ -44,13 +43,13 @@ namespace AWS_S3.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
                 return Unauthorized("Invalid credentials");
             var authClaims = new List<Claim>
             {
-                new(ClaimTypes.Email, user.UserName),
+                new(ClaimTypes.Email, user.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new("AppUserID",user.AppUserID.ToString())
                 //new(ClaimTypes.Role, assignRole),
