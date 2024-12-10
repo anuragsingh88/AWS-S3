@@ -2525,7 +2525,7 @@ permissions and limitations under the License.
             $scope.activeDiv = false;
             $('#SettingsModal').modal('hide');
 
-            // login-function
+
             $scope.login = function () {
                 const apiUrl = '/api/Auth/Login';
                 if (!$scope.user.email || !$scope.user.password) {
@@ -2546,6 +2546,32 @@ permissions and limitations under the License.
                     });
                 resetFormFields($scope)
             };
+
+
+
+            $scope.registerUser = function () {
+                var email = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+                var statusElement = document.getElementById('registrationStatus');
+                RegisterationData = {
+                    email: $scope.user.email,
+                    password: $scope.user.password
+                }
+                if (email && password) {
+                    const apiUrl = '/api/Auth/register';
+                    $http.post(apiUrl, RegisterationData)
+                        .then(function (response) {
+                            //$scope.showDiv = !$scope.showDiv;
+                            $scope.activeDiv = true;
+                        })
+                    statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                }
+                else {
+                    statusElement.innerHTML = "Please fill out the form correctly.";
+                }
+            }
         }
         function resetFormFields($scope) {
                 $scope.user.email = '';
@@ -2555,30 +2581,6 @@ permissions and limitations under the License.
         }
         
 
-        function registerUser($scope) {
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
-            var statusElement = document.getElementById('registrationStatus');
-            RegisterationData = {
-                email: $scope.user.email,
-                password: $scope.user.password
-            }
-            if (email && password) {
-                const apiUrl = '/api/Auth/register';
-                $http.post(apiUrl, RegisterationData)
-                    .then(function (response) {
-                        //$scope.showDiv = !$scope.showDiv;
-                        $scope.activeDiv = true;
-                    })
-                statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-            }
-            else
-            {
-                statusElement.innerHTML = "Please fill out the form correctly.";
-            }
-        }
 
         // Create Angular module and attach factory and controllers
 
