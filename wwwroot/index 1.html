@@ -399,7 +399,7 @@ permissions and limitations under the License.
 
 
 
-    <div class="container" ng-show=!showDiv>
+    <div class="container" ng-show="!showDiv">
         <h2>User Registration</h2>
 
         <!-- Registration Form -->
@@ -439,20 +439,7 @@ permissions and limitations under the License.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div ng-show="!showDiv">
+    <div ng-show="activeDiv">
         <!-- Modal Settings dialog -->
         <div id="SettingsModal" class="modal fade" ng-controller="SettingsController" tabindex="-1">
             <div class="modal-dialog">
@@ -2370,7 +2357,7 @@ permissions and limitations under the License.
             DEBUG.log('TrashController init');
             window.trashScope = $scope; // for debugging
             $scope.trash = { title: null, button: null, objects: [] };
-            $scope.activeDiv = true
+            //$scope.activeDiv = true
             // Cache jquery selectors
             const $btnDelete = $('#trash-btn-delete');
             const $btnCancel = $('#trash-btn-cancel');
@@ -2540,7 +2527,6 @@ permissions and limitations under the License.
 
             // login-function
             $scope.login = function () {
-                debugger
                 const apiUrl = '/api/Auth/Login';
                 if (!$scope.user.email || !$scope.user.password) {
                     console.warn('Email or password is missing.');
@@ -2553,8 +2539,6 @@ permissions and limitations under the License.
                 $http.post(apiUrl, loginData)
                     .then(function (response) {
                         $scope.showDiv = !$scope.showDiv;
-                        $scope.activeDiv = true;
-                        // $scope.showDiv = false;
                         console.log('Login successful:', response.data);
                     })
                     .catch(function (error) {
@@ -2563,41 +2547,44 @@ permissions and limitations under the License.
                 resetFormFields($scope)
             };
         }
-        //window.onload = function ($scope) {
-        //    resetFormFields($scope);
-        //};
-
-        // Function to reset form fields
         function resetFormFields($scope) {
                 $scope.user.email = '';
                 $scope.user.password = '';
                 $scope.registrationForm.email.$setPristine();
                 $scope.registrationForm.email.$setUntouched();
         }
+        
 
-        function registerUser() {
-            // Get the form elements
+        function registerUser($scope) {
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
-
-            // Get the registration status element
             var statusElement = document.getElementById('registrationStatus');
-
-            // Check if both email and password are provided
+            RegisterationData = {
+                email: $scope.user.email,
+                password: $scope.user.password
+            }
             if (email && password) {
-                // Simulate a successful registration
+                const apiUrl = '/api/Auth/register';
+                $http.post(apiUrl, RegisterationData)
+                    .then(function (response) {
+                        //$scope.showDiv = !$scope.showDiv;
+                        $scope.activeDiv = true;
+                    })
                 statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
-
-                // Clear the form fields
                 document.getElementById('email').value = '';
                 document.getElementById('password').value = '';
-            } else {
-                // If form fields are not valid, show an error message
+            }
+            else
+            {
                 statusElement.innerHTML = "Please fill out the form correctly.";
             }
         }
 
         // Create Angular module and attach factory and controllers
+
+
+
+
         angular.module('aws-js-s3-explorer', [])
             .factory('SharedService', SharedService)
             .controller('ErrorController', ErrorController)
