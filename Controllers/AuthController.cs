@@ -47,6 +47,17 @@ namespace AWS_S3.Controllers
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
                 return Unauthorized("Invalid credentials");
+
+            if (user.Is2FAEnabled)
+            {
+                return Ok(new { message = "Enter 2FA code", Is2FAEnabled = true });
+            }
+            string token = GenerateToken(user);
+            return Ok(token);
+        }
+
+        private string GenerateToken(ApplicationUser user)
+        {
             var authClaims = new List<Claim>
             {
                 new(ClaimTypes.Email, user.Email),
@@ -63,33 +74,33 @@ namespace AWS_S3.Controllers
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
-
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
-            });
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
 
         [HttpPost("generate-2fa")]
         public IActionResult Generate2FA([FromBody] string email)
         {
             string secretKey = TrackUser.GenerateSecretKey();
             string qrCode = TrackUser.GenerateQrCode(secretKey, email, "aws-s3");
+            var user = _db.ApplicationUsers.Where(x => x.Email == email).FirstOrDefault();
+            if (user == null)
+                return Unauthorized("Invalid credentials.");
+            user.SecretKey = secretKey;
+            user.Is2FAEnabled = true;
+            _db.SaveChanges();
             return Ok(new { SecretKey = secretKey, QrCode = qrCode });
         }
         [HttpPost("validate-2fa")]
-        public IActionResult Validate2FA([FromBody] TwoFactorRequest request)
+        public IActionResult Validate2FA([FromBody] TwoFactorAuth request)
         {
-            bool isValid = TrackUser.ValidateTOTP(request.SecretKey, request.Code);
-            if (isValid)
+            var user = _db.ApplicationUsers.Where(x => x.Email == request.Email).FirstOrDefault();
+            bool isValid = TrackUser.ValidateTOTP(user.SecretKey, request.Code);
+            if (!isValid)
             {
-                return Ok(new { Message = "2FA validated successfully." });
+                return Unauthorized("Invalid 2FA code.");
             }
-            return Unauthorized(new { Message = "Invalid 2FA code." });
+            var token = GenerateToken(user);
+            return Ok(token);
         }
-
     }
 }
