@@ -399,7 +399,7 @@ permissions and limitations under the License.
 
 
 
-    <div class="container" ng-show="!showDiv">
+    <div class="container" ng-show="registerDiv">
         <h2>User Registration</h2>
 
         <!-- Registration Form -->
@@ -737,21 +737,21 @@ permissions and limitations under the License.
                                     </p>
                                     <p>
                                         <pre>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"&gt;
-&lt;CORSRule&gt;
-    &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
-    &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
-    &lt;AllowedMethod&gt;POST&lt;/AllowedMethod&gt;
-    &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
-    &lt;AllowedMethod&gt;HEAD&lt;/AllowedMethod&gt;
-    &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
-    &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
-    &lt;ExposeHeader&gt;ETag&lt;/ExposeHeader&gt;
-    &lt;ExposeHeader&gt;x-amz-meta-myheader&lt;/ExposeHeader&gt;
-&lt;/CORSRule&gt;
-&lt;/CORSConfiguration&gt;
-</pre>
+                                    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                                    &lt;CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"&gt;
+                                    &lt;CORSRule&gt;
+                                        &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
+                                        &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
+                                        &lt;AllowedMethod&gt;POST&lt;/AllowedMethod&gt;
+                                        &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
+                                        &lt;AllowedMethod&gt;HEAD&lt;/AllowedMethod&gt;
+                                        &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
+                                        &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
+                                        &lt;ExposeHeader&gt;ETag&lt;/ExposeHeader&gt;
+                                        &lt;ExposeHeader&gt;x-amz-meta-myheader&lt;/ExposeHeader&gt;
+                                    &lt;/CORSRule&gt;
+                                    &lt;/CORSConfiguration&gt;
+                                    </pre>
                                     <p>
                                         Please see the project <a target="_blank"
                                                                   href="https://github.com/awslabs/aws-js-s3-explorer/blob/v2-alpha/README.md">README</a>
@@ -768,19 +768,19 @@ permissions and limitations under the License.
                                     </p>
                                     <p>
                                         <pre>
-{
-"Version": "2012-10-17",
-"Statement": [{
-    "Sid": "AllPermissionsForOwner",
-    "Effect": "Allow",
-    "Principal": {
-        "AWS": "arn:aws:iam::999999999999:root"
-    },
-    "Action": "s3:*",
-    "Resource": "arn:aws:s3:::mybucket/*"
-}]
-}
-</pre>
+                                        {
+                                        "Version": "2012-10-17",
+                                        "Statement": [{
+                                            "Sid": "AllPermissionsForOwner",
+                                            "Effect": "Allow",
+                                            "Principal": {
+                                                "AWS": "arn:aws:iam::999999999999:root"
+                                            },
+                                            "Action": "s3:*",
+                                            "Resource": "arn:aws:s3:::mybucket/*"
+                                        }]
+                                        }
+                                        </pre>
                                     <p>
                                         Please see the project <a target="_blank"
                                                                   href="https://github.com/awslabs/aws-js-s3-explorer/blob/v2-alpha/README.md">README</a>
@@ -1066,6 +1066,9 @@ permissions and limitations under the License.
             </div>
         </div>
     </div>
+
+
+
     <script>
         // Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
         //
@@ -2523,6 +2526,7 @@ permissions and limitations under the License.
         function MainController($scope, $http) {
             $scope.showDiv = true;
             $scope.activeDiv = false;
+            $scope.registerDiv = false;
             $('#SettingsModal').modal('hide');
 
 
@@ -2539,6 +2543,7 @@ permissions and limitations under the License.
                 $http.post(apiUrl, loginData)
                     .then(function (response) {
                         $scope.showDiv = !$scope.showDiv;
+                        $scope.registerDiv = true;
                         console.log('Login successful:', response.data);
                     })
                     .catch(function (error) {
@@ -2562,6 +2567,7 @@ permissions and limitations under the License.
                     $http.post(apiUrl, RegisterationData)
                         .then(function (response) {
                             //$scope.showDiv = !$scope.showDiv;
+                            $scope.registerDiv = false;
                             $scope.activeDiv = true;
                         })
                     statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
