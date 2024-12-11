@@ -5,6 +5,8 @@ using AWS_S3.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using OtpNet;
+using QRCoder;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -70,5 +72,26 @@ namespace AWS_S3.Controllers
                 expiration = token.ValidTo
             });
         }
+
+
+
+        [HttpPost("generate-2fa")]
+        public IActionResult Generate2FA([FromBody] string email)
+        {
+            string secretKey = TrackUser.GenerateSecretKey();
+            string qrCode = TrackUser.GenerateQrCode(secretKey, email, "aws-s3");
+            return Ok(new { SecretKey = secretKey, QrCode = qrCode });
+        }
+        [HttpPost("validate-2fa")]
+        public IActionResult Validate2FA([FromBody] TwoFactorRequest request)
+        {
+            bool isValid = TrackUser.ValidateTOTP(request.SecretKey, request.Code);
+            if (isValid)
+            {
+                return Ok(new { Message = "2FA validated successfully." });
+            }
+            return Unauthorized(new { Message = "Invalid 2FA code." });
+        }
+
     }
 }
