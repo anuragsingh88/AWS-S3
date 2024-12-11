@@ -391,7 +391,7 @@ permissions and limitations under the License.
                 </button>
             </form>
             <p class="text-center mt-3">
-                <a href="#">Forgot your password?</a>
+                <a href="#" ng-click="forgotPassword($event)">Forgot your password?</a>
             </p>
         </div>
     </div>
@@ -2522,8 +2522,8 @@ permissions and limitations under the License.
             });
         }
 
-        MainController.$inject = ['$http'];
-        function MainController($scope, $http) {
+        MainController.$inject = ['$scope', '$http', '$timeout'];;
+        function MainController($scope, $http, $timeout) {
             $scope.showDiv = true;
             $scope.activeDiv = false;
             $scope.registerDiv = false;
@@ -2542,14 +2542,17 @@ permissions and limitations under the License.
                 }
                 $http.post(apiUrl, loginData)
                     .then(function (response) {
-                        $scope.showDiv = !$scope.showDiv;
-                        $scope.registerDiv = true;
+                        $scope.showDiv = !$scope.showDiv; 
+                        $scope.activeDiv = true;
+                            startTimer($scope)
                         console.log('Login successful:', response.data);
                     })
                     .catch(function (error) {
+                        alert('enter the login credentials correctly')
                         console.error('Login failed:', error);
                     });
                 resetFormFields($scope)
+                //startTimer()
             };
 
 
@@ -2566,19 +2569,39 @@ permissions and limitations under the License.
                     const apiUrl = '/api/Auth/register';
                     $http.post(apiUrl, RegisterationData)
                         .then(function (response) {
-                            //$scope.showDiv = !$scope.showDiv;
+                            $scope.showDiv = true;
                             $scope.registerDiv = false;
-                            $scope.activeDiv = true;
                         })
-                    statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
+                    //statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
+                    //document.getElementById('email').value = '';
+                    //document.getElementById('password').value = '';
                 }
                 else {
-                    statusElement.innerHTML = "Please fill out the form correctly.";
+                    alert('Please fill out the form correctly')
                 }
+                resetFormFields($scope);
             }
+
+            $scope.forgotPassword = function (event) {
+                $scope.registerDiv = true;
+                $scope.showDiv = false;
+                event.preventDefault();                
+                //alert('Forgot password functionality triggered!');
+            };
+
+            var startTimer = function () {
+                var timer = $timeout(function () {
+                    $timeout.cancel(timer);
+                    $scope.showDiv = true
+                    $scope.activeDiv = false
+                    alert('session expired')
+                }, 3600000);
+            };
+
+
         }
+
+
         function resetFormFields($scope) {
                 $scope.user.email = '';
                 $scope.user.password = '';
@@ -2602,7 +2625,7 @@ permissions and limitations under the License.
             .controller('SettingsController', SettingsController)
             .controller('UploadController', UploadController)
             .controller('TrashController', TrashController)
-            .controller('MainController', ['$scope', '$http', MainController]);
+            .controller('MainController', ['$scope','$http','$timeout', MainController]);
 
 
         $(document).ready(() => {
