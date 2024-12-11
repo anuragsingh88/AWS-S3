@@ -78,11 +78,11 @@ namespace AWS_S3.Controllers
         }
 
         [HttpPost("generate-2fa")]
-        public IActionResult Generate2FA([FromBody] string email)
+        public IActionResult Generate2FA([FromBody] LoginModel model)
         {
             string secretKey = TrackUser.GenerateSecretKey();
-            string qrCode = TrackUser.GenerateQrCode(secretKey, email, "aws-s3");
-            var user = _db.ApplicationUsers.Where(x => x.Email == email).FirstOrDefault();
+            string qrCode = TrackUser.GenerateQrCode(secretKey, model.Email, "aws-s3");
+            var user = _db.ApplicationUsers.Where(x => x.Email == model.Email).FirstOrDefault();
             if (user == null)
                 return Unauthorized("Invalid credentials.");
             user.SecretKey = secretKey;
