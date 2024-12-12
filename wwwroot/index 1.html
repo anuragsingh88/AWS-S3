@@ -29,331 +29,331 @@ permissions and limitations under the License.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://aws.amazon.com/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
-        integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+          integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css"
-        integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
+          integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="explorer.css">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 50px;
-        }
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f8f9fa;
+                    padding: 50px;
+                }
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
+                .container {
+                    max-width: 500px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    padding: 30px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border-radius: 10px;
+                }
 
-        .login-container {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
+                .login-container {
+                    border: 1px solid #ddd;
+                    padding: 20px;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                }
 
-        h2,
-        h3 {
-            text-align: center;
-            color: #333;
-        }
+                h2,
+                h3 {
+                    text-align: center;
+                    color: #333;
+                }
 
-        .form-group label {
-            font-weight: bold;
-        }
+                .form-group label {
+                    font-weight: bold;
+                }
 
-        .form-control {
+                .form-control {
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                }
+
+                .form-group small {
+                    color: red;
+                }
+
+                .btn-block {
+                    width: 100%;
+                    padding: 12px;
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+
+                    .btn-block:hover {
+                        background-color: #0056b3;
+                    }
+
+                .text-center a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+                    .text-center a:hover {
+                        text-decoration: underline;
+                    }
+
+                .form-group {
+                    margin-bottom: 20px;
+                }
+
+                .mt-3 {
+                    margin-top: 20px;
+                }
+
+                .mb-4 {
+                    margin-bottom: 30px;
+                }
+
+                .btn-block:disabled {
+                    background-color: #6c757d;
+                }
+
+                .container h2 {
+                    margin-bottom: 40px;
+                }
+
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f8f9fa;
+                    padding: 50px;
+                }
+
+                .login-container {
+                    max-width: 400px;
+                    margin: 50px auto;
+                    padding: 30px;
+                    background: #fff;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                #page-wrapper {
+                    width: 100%;
+                    padding: 5px 15px;
+                }
+
+                #tb-s3objects {
+                    width: 100% !Important;
+                }
+
+                a {
+                    color: #00B7FF;
+                }
+
+                body {
+                    /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+                    font-family: "Open Sans", sans-serif;
+                }
+
+                td {
+                    /*font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+                    font-family: "Open Sans", sans-serif;
+                }
+
+                .title {
+                    padding: 6px 12px;
+                }
+
+                .input-group-addon {
+                    min-width: 150px;
+                }
+
+                .bottom-marg-10 {
+                    margin-bottom: 10px;
+                }
+
+                .breadcrumb {
+                    margin-bottom: 0;
+                }
+
+                .checkbox {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+
+                #navbuttons .btn {
+                    padding: 3px 6px;
+                }
+
+                .tab-content {
+                    border-left: 1px solid #ddd;
+                    border-right: 1px solid #ddd;
+                    padding: 10px;
+                    border-bottom: 1px solid #dddddd;
+                    border-radius: 0 0 4px 4px;
+                }
+
+                .nav-tabs {
+                    margin-bottom: 0;
+                }
+
+                /*
+        .dropzone {
+            border: 1px dashed #0088CC;
             border-radius: 5px;
-            border: 1px solid #ccc;
-            padding: 10px;
         }
+        */
 
-        .form-group small {
-            color: red;
+                .dropzone.dragover {
+                    /*border: 1px solid #0088CC;*/
+                    /*border: 2px dashed #0088CC;*/
+                    /*outline: 4px dashed #0088CC;*/
+                    /*outline-radius: 5px;*/
+                    box-shadow: 0 0 3pt 2pt #0088CC;
+                    /*border: 5px dashed #0088CC;*/
+                    /*padding: 5px;*/
+                    /*outline: 5px dashed #0088CC;*/
+                }
+
+                #upload-tbody .progress {
+                    margin-bottom: 0;
+                }
+
+                .uploaderror,
+                .trasherror {
+                    color: #AF0000;
+                }
+
+                .trashdeleted {
+                    color: #00AF00;
+                }
+
+                table.dataTable tbody tr {
+                    cursor: pointer;
+                }
+
+                #TrashModal77 {
+                    width: 700px;
+                }
+
+                .modal-header {
+                    background-color: #ff9401;
+                    color: #FFFFFF;
+                    border-top-left-radius: 3px;
+                    border-top-right-radius: 3px;
+                }
+
+                    .modal-header button.close {
+                        color: #8f8f8f;
+                        opacity: 1;
+                        background-color: #ffffff;
+                        border-radius: 50%;
+                        height: 30px;
+                        width: 30px;
+                    }
+
+                .alert table {
+                    width: 100%;
+                    border: 3px solid white;
+                    border-collapse: collapse;
+                    font-size: 1.5rem;
+                }
+
+                .alert caption {
+                    opacity: 0;
+                    margin: 0;
+                    height: 0;
+                }
+
+                .alert tr {
+                    /*background: rgb(251, 174, 44);*/
+                    border-bottom: 2px solid white;
+                    border-top: 3px solid white;
+                }
+
+                /*
+        .alert tr:nth-child(even) {
+            background: ckground: rgb(249, 228, 130);
         }
+        */
 
-        .btn-block {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+                .alert th {
+                    background: rgb(65, 62, 61);
+                    color: white;
+                    padding: .6em 1em .3em;
+                    text-align: left;
+                    border-bottom: 3px solid white;
+                }
 
-            .btn-block:hover {
-                background-color: #0056b3;
-            }
+                    .alert th:first-child {
+                        width: 15%;
+                    }
 
-        .text-center a {
-            color: #007bff;
-            text-decoration: none;
-        }
+                .alert th,
+                .alert td {
+                    vertical-align: middle;
+                    border-left: 3px solid white;
+                }
 
-            .text-center a:hover {
-                text-decoration: underline;
-            }
+                .alert td {
+                    padding: .4em 1em;
+                }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+                .alert table {
+                    color: #000000;
+                }
 
-        .mt-3 {
-            margin-top: 20px;
-        }
+                .progress-bar {
+                    min-width: 25px;
+                    width: 0%;
+                }
 
-        .mb-4 {
-            margin-bottom: 30px;
-        }
+                .panel-custom {
+                    border-color: #cdcdcd;
+                }
 
-        .btn-block:disabled {
-            background-color: #6c757d;
-        }
+                    .panel-custom .panel-heading {
+                        background-color: #3c5466;
+                        color: #fff;
+                    }
 
-        .container h2 {
-            margin-bottom: 40px;
-        }
+                table.table thead th {
+                    background-color: #ff9401;
+                    color: #fff;
+                }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 50px;
-        }
+                .theme-custom-style #navbuttons .btn:hover {
+                    color: #fff;
+                }
 
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+                .theme-btn {
+                    background-image: linear-gradient(to bottom, #e59724 0, #FF5722 100%);
+                    border-color: #bb6f00;
+                    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+                    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+                    color: #fff;
+                }
 
-        #page-wrapper {
-            width: 100%;
-            padding: 5px 15px;
-        }
+                    .theme-btn:hover {
+                        background-image: linear-gradient(to bottom, #ffa826 0, #ff4b13 100%);
+                        color: #fff;
+                    }
 
-        #tb-s3objects {
-            width: 100% !Important;
-        }
-
-        a {
-            color: #00B7FF;
-        }
-
-        body {
-            /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
-            font-family: "Open Sans", sans-serif;
-        }
-
-        td {
-            /*font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;*/
-            font-family: "Open Sans", sans-serif;
-        }
-
-        .title {
-            padding: 6px 12px;
-        }
-
-        .input-group-addon {
-            min-width: 150px;
-        }
-
-        .bottom-marg-10 {
-            margin-bottom: 10px;
-        }
-
-        .breadcrumb {
-            margin-bottom: 0;
-        }
-
-        .checkbox {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-
-        #navbuttons .btn {
-            padding: 3px 6px;
-        }
-
-        .tab-content {
-            border-left: 1px solid #ddd;
-            border-right: 1px solid #ddd;
-            padding: 10px;
-            border-bottom: 1px solid #dddddd;
-            border-radius: 0 0 4px 4px;
-        }
-
-        .nav-tabs {
-            margin-bottom: 0;
-        }
-
-        /*
-.dropzone {
-    border: 1px dashed #0088CC;
-    border-radius: 5px;
-}
-*/
-
-        .dropzone.dragover {
-            /*border: 1px solid #0088CC;*/
-            /*border: 2px dashed #0088CC;*/
-            /*outline: 4px dashed #0088CC;*/
-            /*outline-radius: 5px;*/
-            box-shadow: 0 0 3pt 2pt #0088CC;
-            /*border: 5px dashed #0088CC;*/
-            /*padding: 5px;*/
-            /*outline: 5px dashed #0088CC;*/
-        }
-
-        #upload-tbody .progress {
-            margin-bottom: 0;
-        }
-
-        .uploaderror,
-        .trasherror {
-            color: #AF0000;
-        }
-
-        .trashdeleted {
-            color: #00AF00;
-        }
-
-        table.dataTable tbody tr {
-            cursor: pointer;
-        }
-
-        #TrashModal77 {
-            width: 700px;
-        }
-
-        .modal-header {
-            background-color: #ff9401;
-            color: #FFFFFF;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-        }
-
-        .modal-header button.close {
-            color: #8f8f8f;
-            opacity: 1;
-            background-color: #ffffff;
-            border-radius: 50%;
-            height: 30px;
-            width: 30px;
-        }
-
-        .alert table {
-            width: 100%;
-            border: 3px solid white;
-            border-collapse: collapse;
-            font-size: 1.5rem;
-        }
-
-        .alert caption {
-            opacity: 0;
-            margin: 0;
-            height: 0;
-        }
-
-        .alert tr {
-            /*background: rgb(251, 174, 44);*/
-            border-bottom: 2px solid white;
-            border-top: 3px solid white;
-        }
-
-        /*
-.alert tr:nth-child(even) {
-    background: ckground: rgb(249, 228, 130);
-}
-*/
-
-        .alert th {
-            background: rgb(65, 62, 61);
-            color: white;
-            padding: .6em 1em .3em;
-            text-align: left;
-            border-bottom: 3px solid white;
-        }
-
-        .alert th:first-child {
-            width: 15%;
-        }
-
-        .alert th,
-        .alert td {
-            vertical-align: middle;
-            border-left: 3px solid white;
-        }
-
-        .alert td {
-            padding: .4em 1em;
-        }
-
-        .alert table {
-            color: #000000;
-        }
-
-        .progress-bar {
-            min-width: 25px;
-            width: 0%;
-        }
-
-        .panel-custom {
-            border-color: #cdcdcd;
-        }
-
-        .panel-custom .panel-heading {
-            background-color: #3c5466;
-            color: #fff;
-        }
-
-        table.table thead th {
-            background-color: #ff9401;
-            color: #fff;
-        }
-
-        .theme-custom-style #navbuttons .btn:hover {
-            color: #fff;
-        }
-
-        .theme-btn {
-            background-image: linear-gradient(to bottom, #e59724 0, #FF5722 100%);
-            border-color: #bb6f00;
-            text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
-            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
-            color: #fff;
-        }
-
-        .theme-btn:hover {
-            background-image: linear-gradient(to bottom, #ffa826 0, #ff4b13 100%);
-            color: #fff;
-        }
-
-        .input-group-addon {
-            background-color: #fff9f0;
-        }
+                .input-group-addon {
+                    background-color: #fff9f0;
+                }
 
         #bucket-info {}
 
-        @media (min-width: 768px) {
-            .modal-xl {
-                width: 90%;
-                max-width: 1200px;
-            }
-        }
+                @media (min-width: 768px) {
+                    .modal-xl {
+                        width: 90%;
+                        max-width: 1200px;
+                    }
+                }
     </style>
 </head>
 
@@ -365,33 +365,60 @@ permissions and limitations under the License.
     <div class="container" ng-show="showDiv">
         <div class="login-container">
             <h3 class="text-center mb-4">Login</h3>
-            <form name="loginForm" ng-submit="login()" novalidate ng-submit="login()">
+            <form name="loginForm" ng-submit="login()" novalidate>
                 <!-- Email -->
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" ng-model="user.email"
-                           placeholder="Enter your email" required>
-                    <small class="text-danger" ng-show="loginForm.email.$touched && loginForm.email.$invalid">
+                    <input type="email"
+                           id="email"
+                           class="form-control"
+                           ng-model="user.email"
+                           placeholder="Enter your email"
+                           required />
+                    <small class="text-danger"
+                           ng-show="loginForm.email.$touched && loginForm.email.$invalid">
                         A valid email is required.
                     </small>
                 </div>
                 <!-- Password -->
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" ng-model="user.password"
-                           placeholder="Enter your password" required>
-                    <small class="text-danger" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
+                    <input type="password"
+                           id="password"
+                           class="form-control"
+                           ng-model="user.password"
+                           placeholder="Enter your password"
+                           required />
+                    <small class="text-danger"
+                           ng-show="loginForm.password.$touched && loginForm.password.$invalid">
                         Password is required.
                     </small>
                 </div>
+                <!-- OTP -->
+                <div class="form-group">
+                    <label for="otp">Enter OTP</label>
+                    <input type="text"
+                           id="otp"
+                           class="form-control"
+                           ng-model="user.otpInput"
+                           maxlength="6"
+                           ng-pattern="/^\d*$/"
+                           placeholder="Enter 6-digit OTP"
+                           required />
+                    <small class="text-danger"
+                           ng-show="loginForm.otp.$touched && loginForm.otp.$invalid">
+                        A valid 6-digit OTP is required.
+                    </small>
+                </div>
                 <!-- Login Button -->
-                <button type="submit" class="btn btn-primary btn-block" type="submit" ng-disabled="loginForm.$invalid"
-                        (click)="login()">
+                <button type="submit"
+                        class="btn btn-primary btn-block"
+                        ng-disabled="loginForm.$invalid">
                     Login
                 </button>
             </form>
             <p class="text-center mt-3">
-                <a href="#" ng-click="forgotPassword($event)">Forgot your password?</a>
+                <a href="#" ng-click="forgotPassword($event)">Create New User</a>
             </p>
         </div>
     </div>
@@ -399,40 +426,75 @@ permissions and limitations under the License.
 
 
 
-    <div class="container" ng-show="registerDiv">
-        <h2>User Registration</h2>
 
-        <!-- Registration Form -->
-        <form name="registrationForm" ng-submit="registerUser()" novalidate>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" ng-model="user.email" class="form-control" required />
-                <small class="text-danger" ng-show="registrationForm.email.$touched && registrationForm.email.$invalid">
-                    Please enter a valid email.
-                </small>
-            </div>
+    <div>
+        <div class="container" ng-show="registerDiv">
+            <h2>User Registration</h2>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" ng-model="user.password" class="form-control" required />
-                <small class="text-danger" ng-show="registrationForm.password.$touched && registrationForm.password.$invalid">
-                    Please enter a password.
-                </small>
-            </div>
+            <!-- Registration Form -->
+            <form name="registrationForm" ng-submit="registerUser()" novalidate>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" ng-model="user.email" class="form-control" required />
+                    <small class="text-danger" ng-show="registrationForm.email.$touched && registrationForm.email.$invalid">
+                        Please enter a valid email.
+                    </small>
+                </div>
 
-            <div>
-                <button type="submit" ng-disabled="registrationForm.$invalid" class="btn btn-primary btn-block">Register</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" ng-model="user.password" class="form-control" required />
+                    <small class="text-danger" ng-show="registrationForm.password.$touched && registrationForm.password.$invalid">
+                        Please enter a password.
+                    </small>
+                </div>
+
+                <div>
+                    <button type="submit" ng-disabled="registrationForm.$invalid" class="btn btn-primary btn-block">Register</button>
+                </div>
+            </form>
+
+        </div>
 
         <!-- Success/Failure Message -->
-        <div ng-show="registrationStatus" class="mt-3">
+        <!--<div ng-show="registrationStatus" class="mt-3">
             <p class="text-center">{{ registrationStatus }}</p>
-        </div>
+        </div>-->
+
+
+
+        <div ng-if="BarcodeDiv">
+            <div>
+                <button type="submit"
+                        style=" margin-bottom: 5%; margin-right: 14%;" ng-click="verifyOtp()">
+                    Back to login
+                </button>
+            </div>
+            <div style="display:flex;align-items:center">
+                <p>Scan this QR Code:</p>
+                <img style="height:160px" ng-src="{{ qrcodeImage }}" alt="QR Code" />
+
+            </div>
+            <!--<div>
+                <form name="loginForm" ng-submit="verifyOtp(otpInput)">
+                    <label for="otp">Enter OTP:</label>-->
+                    <!--<input id="otp"
+                           type="text"
+                           class="otpForm-otp"
+                           ng-model="user.otpInput"
+                           maxlength="6"
+                           ng-pattern="/^\d*$/"
+                           placeholder="Enter 6-digit OTP"
+                           style="width: 120px; padding: 5px; font-size: 14px;"
+                           required />-->
+                    
+                <!--</form>
+                <p ng-if="otpError" style="color: red; margin-top: 10px;">{{ otpError }}</p>-->
+            <!--</div>-->
+
+        <!--</div>-->
+
     </div>
-
-
-
 
 
 
@@ -2538,23 +2600,20 @@ permissions and limitations under the License.
                 }
                 loginData = {
                     email: $scope.user.email,
-                    password: $scope.user.password
+                    password: $scope.user.password,
+                    code: $scope.user.otpInput
                 }
                 $http.post(apiUrl, loginData)
                     .then(function (response) {
-                        $scope.showDiv = !$scope.showDiv; 
-                        $scope.activeDiv = true;
-                            startTimer($scope)
+                        $scope.showDiv = !$scope.showDiv;
+                        startTimer($scope)
+                        $scope.activeDiv = true
                         console.log('Login successful:', response.data);
                     })
                     .catch(function (error) {
                         alert('enter the login credentials correctly')
-                        console.error('Login failed:', error);
                     });
-                resetFormFields($scope)
-                //startTimer()
             };
-
 
 
             $scope.registerUser = function () {
@@ -2569,25 +2628,109 @@ permissions and limitations under the License.
                     const apiUrl = '/api/Auth/register';
                     $http.post(apiUrl, RegisterationData)
                         .then(function (response) {
-                            $scope.showDiv = true;
+                            //$scope.showDiv = true;
                             $scope.registerDiv = false;
+                            $scope.generateQRCode(response.data.qrCode)
+                            $scope.BarcodeDiv = true
+                            //$scope.getQRCode($scope)
                         })
-                    //statusElement.innerHTML = "Registration successful! Welcome, " + email + ".";
-                    //document.getElementById('email').value = '';
-                    //document.getElementById('password').value = '';
                 }
                 else {
                     alert('Please fill out the form correctly')
                 }
-                resetFormFields($scope);
+                //resetFormFields($scope);
             }
+
+            $scope.generateQRCode = function (base64String) {
+                $scope.BarcodeDiv = true
+                var imageUrl = `data:image/png;base64,${base64String}`;
+                $scope.qrcodeImage = imageUrl;
+            };
+
 
             $scope.forgotPassword = function (event) {
                 $scope.registerDiv = true;
                 $scope.showDiv = false;
-                event.preventDefault();                
+                event.preventDefault();
                 //alert('Forgot password functionality triggered!');
             };
+
+
+
+            //$scope.getQRCode = function () {
+            //    const apiUrl = '/api/auth/generate-2fa';
+            //    const loginData = {
+            //        email: $scope.user.email,
+            //        password: $scope.user.password,
+            //    };
+            //    $http.post(apiUrl, loginData)
+            //        .then(function (response) {
+            //            if (response.data.qrCode) {
+            //                $scope.qrCodeImage = response.data.qrCode;
+            //                $scope.generateQRCode($scope.qrCodeImage)
+            //            }
+            //        })
+            //        .catch(function (error) {
+            //        });
+            //};
+
+
+            // Function to generate QR code from Base64 string
+
+            $scope.autheticateUser = function (base64String) {
+                var email = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+                var statusElement = document.getElementById('registrationStatus');
+                var qrCodeImage = $scope.qrCodeImage
+                RegisterationData = {
+                    email: $scope.user.email,
+                    code: $scope.user.otpInput
+                }
+
+                if (email && qrCodeImage) {
+                    const apiUrl = '/api/Auth/validate-2fa';
+                    $http.post(apiUrl, RegisterationData)
+                        .then(function (response) {
+                            $scope.BarcodeDiv = !$scope.BarcodeDiv
+                            $scope.activeDiv = true;
+                            alert('OTP verified successfully!');
+                        })
+                    //resetFormFields($scope);
+                }
+                else {
+                    alert('Two step verification failed')
+                }
+                //resetFormFields($scope);
+            }
+
+            $scope.verifyOtp = function () {
+                $scope.BarcodeDiv = false;
+                $scope.registerDiv = false;
+                $scope.showDiv = true;
+                $scope.resetFormFields()
+
+                //if (!$scope.user.otpInput || $scope.user.otpInput.length !== 6 || isNaN($scope.user.otpInput)) {
+                //    $scope.user.otpError = 'Please enter a valid 6-digit OTP.';
+                //    return;
+                //}
+                //if ($scope.user.otpInput || $scope.user.otpInput.length == 6 || isNaN($scope.user.otpInput)) {
+                //    RegisterationData = {
+                //        email: $scope.user.email,
+                //        password: $scope.user.password,
+                //        code: $scope.user.otpInput
+                //    }
+                    //$http.post(apiUrl, RegisterationData)
+                    //    .then(function (response) {
+                    //        $scope.registerDiv = false;
+                    //        $scope.generateQRCode(response.data.qrCode)
+                    //        $scope.BarcodeDiv = true
+                    //    })
+                    //resetFormFields($scope)
+                //} else {
+                //    $scope.user.otpError = 'Invalid OTP. Please try again.';
+                //}
+            };
+
 
             var startTimer = function () {
                 var timer = $timeout(function () {
@@ -2598,17 +2741,19 @@ permissions and limitations under the License.
                 }, 3600000);
             };
 
+         $scope.resetFormFields = function() {
+            $scope.user.email = '';
+            $scope.user.password = '';
+            $scope.registrationForm.email.$setPristine();
+            $scope.registrationForm.email.$setUntouched();
+        }
 
+            $scope.$on('$viewContentLoaded', function () {
+                $scope.resetFormFields();
+            });
         }
 
 
-        function resetFormFields($scope) {
-                $scope.user.email = '';
-                $scope.user.password = '';
-                $scope.registrationForm.email.$setPristine();
-                $scope.registrationForm.email.$setUntouched();
-        }
-        
 
 
         // Create Angular module and attach factory and controllers
@@ -2625,7 +2770,7 @@ permissions and limitations under the License.
             .controller('SettingsController', SettingsController)
             .controller('UploadController', UploadController)
             .controller('TrashController', TrashController)
-            .controller('MainController', ['$scope','$http','$timeout', MainController]);
+            .controller('MainController', ['$scope', '$http', '$timeout', MainController]);
 
 
         $(document).ready(() => {
@@ -2653,16 +2798,23 @@ permissions and limitations under the License.
 </body>
 
 </html <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-    crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous">
 </script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
-    integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
-    crossorigin="anonymous"></script>
+        integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.437.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+ 
+
+
+
 <script src="explorer.js"></script>
