@@ -2,6 +2,7 @@
 using AWS_S3.Data.Models;
 using AWS_S3.Repository;
 using AWS_S3.ViewModels;
+using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -37,7 +38,12 @@ namespace AWS_S3.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            return Ok("User registered successfully!");
+            string secretKey = TrackUser.GenerateSecretKey();
+            string qrCode = TrackUser.GenerateQrCode(secretKey, model.Email, "aws-s3");
+            user.SecretKey = secretKey;
+            user.Is2FAEnabled = true;
+            _db.SaveChanges();
+            return Ok(new { SecretKey = secretKey, QrCode = qrCode });
         }
 
         [HttpPost("login")]
@@ -48,16 +54,12 @@ namespace AWS_S3.Controllers
             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
                 return Unauthorized("Invalid credentials");
 
-            if (user.Is2FAEnabled)
+            bool isValid = TrackUser.ValidateTOTP(user.SecretKey, model.Code);
+            if (!isValid)
             {
-                return Ok(new { message = "Enter 2FA code", Is2FAEnabled = true });
+                return Unauthorized("Invalid 2FA code.");
             }
-            string token = GenerateToken(user);
-            return Ok(token);
-        }
 
-        private string GenerateToken(ApplicationUser user)
-        {
             var authClaims = new List<Claim>
             {
                 new(ClaimTypes.Email, user.Email),
@@ -74,33 +76,7 @@ namespace AWS_S3.Controllers
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        [HttpPost("generate-2fa")]
-        public IActionResult Generate2FA([FromBody] LoginModel model)
-        {
-            string secretKey = TrackUser.GenerateSecretKey();
-            string qrCode = TrackUser.GenerateQrCode(secretKey, model.Email, "aws-s3");
-            var user = _db.ApplicationUsers.Where(x => x.Email == model.Email).FirstOrDefault();
-            if (user == null)
-                return Unauthorized("Invalid credentials.");
-            user.SecretKey = secretKey;
-            user.Is2FAEnabled = true;
-            _db.SaveChanges();
-            return Ok(new { SecretKey = secretKey, QrCode = qrCode });
-        }
-        [HttpPost("validate-2fa")]
-        public IActionResult Validate2FA([FromBody] TwoFactorAuth request)
-        {
-            var user = _db.ApplicationUsers.Where(x => x.Email == request.Email).FirstOrDefault();
-            bool isValid = TrackUser.ValidateTOTP(user.SecretKey, request.Code);
-            if (!isValid)
-            {
-                return Unauthorized("Invalid 2FA code.");
-            }
-            var token = GenerateToken(user);
-            return Ok(token);
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }
