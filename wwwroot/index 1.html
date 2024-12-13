@@ -448,7 +448,7 @@ permissions and limitations under the License.
                     </small>
                 </div>
                 <div>
-                    <button type="submit" ng-disabled="registrationForm.$invalid" class="btn btn-primary btn-block">Register</button>
+                    <button type="submit" ng-disabled="registrationForm.$invalid || isSubmitting" class="btn btn-primary btn-block">Register</button>
                 </div>
             </form>
         </div>
@@ -2608,11 +2608,11 @@ permissions and limitations under the License.
                     });
             };
 
-
             $scope.registerUser = function () {
                 var email = document.getElementById('email').value;
                 var password = document.getElementById('password').value;
                 var statusElement = document.getElementById('registrationStatus');
+                $scope.isSubmitting = true;
                 RegisterationData = {
                     email: $scope.user.email,
                     password: $scope.user.password
