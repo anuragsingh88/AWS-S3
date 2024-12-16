@@ -38,6 +38,9 @@ permissions and limitations under the License.
     <link rel="stylesheet" href="explorer.css">
 
     <style>
+        .hidden-element {
+            display: none;
+        }
                 body {
                     font-family: Arial, sans-serif;
                     background-color: #f8f9fa;
@@ -361,7 +364,7 @@ permissions and limitations under the License.
 
 <body ng-app="aws-js-s3-explorer" ng-controller="MainController">
 
-    <div class="container" ng-show="showDiv">
+    <div ng-cloak class="container" ng-show="showDiv">
         <div class="login-container">
             <h3 class="text-center mb-4">Login</h3>
             <form name="loginForm" ng-submit="login()" novalidate>
@@ -426,7 +429,7 @@ permissions and limitations under the License.
 
 
 
-    <div>
+    <div ng-cloak>
         <div ng-show="registerDiv">
             <button type="submit"
                     ng-click="verifyOtp()"
