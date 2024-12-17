@@ -2,9 +2,9 @@
 using AWS_S3.Data.Models;
 using AWS_S3.Repository;
 using AWS_S3.ViewModels;
-using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -78,5 +78,44 @@ namespace AWS_S3.Controllers
             );
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
+
+        #region Encrypt/Decrypt
+        [HttpPost("saveAwsCredential")]
+        public async Task SaveAwsCredential(AWSConfigurationViewModel model)
+        {
+            var encSecretAccessKey = TrackUser.Encrypt(model.SecretAccessKey);
+            var encAccessKeyID = TrackUser.Encrypt(model.AccessKeyID);
+
+            // Save to database
+            var systemconfig = new AWSConfiguration
+            {
+                AccessKeyID = encAccessKeyID,
+                SecretAccessKey = encSecretAccessKey,
+                Bucket = model.Bucket,
+                Region = model.Region,
+            };
+            _db.AWSConfigurations.Add(systemconfig);
+            await _db.SaveChangesAsync();
+        }
+
+        [HttpGet("getAwsCredential/{isAdmin:bool}")]
+        public async Task<IActionResult> GetAwsCredential(bool isAdmin)
+        {
+            if (!isAdmin)
+                throw new Exception("Secret not found");
+
+            var res = await _db.AWSConfigurations.FirstOrDefaultAsync();
+
+            var awsConfig = new AWSConfigurationViewModel
+            {
+                SecretAccessKey = TrackUser.Decrypt(res.SecretAccessKey),
+                AccessKeyID = TrackUser.Decrypt(res.AccessKeyID),
+                Bucket = res.Bucket,
+                Region = res.Region
+            };
+            return Ok(awsConfig);
+        }
+
+        #endregion
     }
 }

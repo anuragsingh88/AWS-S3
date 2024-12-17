@@ -1,11 +1,14 @@
 ﻿using OtpNet;
 using QRCoder;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AWS_S3.Repository
 {
     public class TrackUser
     {
         private static IHttpContextAccessor? _httpContextAccessor;
+        private static readonly string EncryptionKey = "5DDBD030-8BAF-4205-B01F-30D461292658";
         public static void Initialize(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -40,5 +43,37 @@ namespace AWS_S3.Repository
             var otp = new Totp(Base32Encoding.ToBytes(secretKey));
             return otp.VerifyTotp(userInputCode, out _, new VerificationWindow(2,2));
         }
+
+        #region Encrypt/Decrypt
+        public static string Encrypt(string plainText)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(EncryptionKey.Substring(0, 16));
+            using var aes = Aes.Create();
+            aes.Key = keyBytes;
+            aes.IV = new byte[16]; // Initialization Vector (IV) with zeroes
+            using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            using var ms = new MemoryStream();
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            using (var sw = new StreamWriter(cs))
+            {
+                sw.Write(plainText);
+            }
+            return Convert.ToBase64String(ms.ToArray());
+        }
+
+        public static string Decrypt(string cipherText)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(EncryptionKey.Substring(0, 16));
+            byte[] buffer = Convert.FromBase64String(cipherText);
+            using var aes = Aes.Create();
+            aes.Key = keyBytes;
+            aes.IV = new byte[16]; // Initialization Vector (IV) with zeroes
+            using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            using var ms = new MemoryStream(buffer);
+            using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
+            using var sr = new StreamReader(cs);
+            return sr.ReadToEnd();
+        }
+        #endregion
     }
 }

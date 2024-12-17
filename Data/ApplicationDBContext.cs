@@ -7,5 +7,6 @@ namespace AWS_S3.Data
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<AWSConfiguration> AWSConfigurations { get; set; }
     }
 }
