@@ -1115,8 +1115,8 @@ permissions and limitations under the License.
                                         <!--                                    <span id="bucket-info" style="cursor: pointer;" class="btn fa fa-info-circle fa-2x" title="Info" data-target="#InfoModal" data-toggle="modal"></span>-->
                                         <span id="bucket-loader" style="cursor: pointer;" class="btn fa fa-sync fa-2x"
                                               ng-hide="!view.settings" ng-click="refresh()" title="Refresh"></span>
-                                        <span id="bucket-settings" style="cursor: pointer;" class="btn fa fa-cog fa-2x"
-                                              title="Settings" data-target="#SettingsModal" data-toggle="modal"></span>
+                                        <!--<span id="bucket-settings" style="cursor: pointer;" class="btn fa fa-cog fa-2x"
+                                              title="Settings" data-target="#SettingsModal" data-toggle="modal"></span>-->
                                     </div>
                                     <!-- Record count -->
                                     <div class="btn-group" ng-hide="!view.settings || view.keys_selected.length > 0">
@@ -2615,9 +2615,9 @@ permissions and limitations under the License.
             });
         }
 
-        MainController.$inject = ['$scope', '$http', '$timeout'];;
-        function MainController($scope, $http, $timeout) {
-            $scope.showDiv = true;
+        MainController.$inject = ['$scope', '$http', '$timeout', '$rootScope', 'SharedService'];
+        function MainController($scope, $http, $timeout, $rootScope, SharedService) {
+             $scope.showDiv = true;
             $scope.activeDiv = false;
             $scope.registerDiv = false;
             $('#SettingsModal').modal('hide');
@@ -2705,26 +2705,6 @@ permissions and limitations under the License.
                 //alert('Forgot password functionality triggered!');
             };
 
-
-
-            //$scope.getQRCode = function () {
-            //    const apiUrl = '/api/auth/generate-2fa';
-            //    const loginData = {
-            //        email: $scope.user.email,
-            //        password: $scope.user.password,
-            //    };
-            //    $http.post(apiUrl, loginData)
-            //        .then(function (response) {
-            //            if (response.data.qrCode) {
-            //                $scope.qrCodeImage = response.data.qrCode;
-            //                $scope.generateQRCode($scope.qrCodeImage)
-            //            }
-            //        })
-            //        .catch(function (error) {
-            //        });
-            //};
-
-
             // Function to generate QR code from Base64 string
 
             $scope.autheticateUser = function (base64String) {
@@ -2759,26 +2739,6 @@ permissions and limitations under the License.
                 $scope.showDiv = true;
                 $scope.resetFormFields()
 
-                //if (!$scope.user.otpInput || $scope.user.otpInput.length !== 6 || isNaN($scope.user.otpInput)) {
-                //    $scope.user.otpError = 'Please enter a valid 6-digit OTP.';
-                //    return;
-                //}
-                //if ($scope.user.otpInput || $scope.user.otpInput.length == 6 || isNaN($scope.user.otpInput)) {
-                //    RegisterationData = {
-                //        email: $scope.user.email,
-                //        password: $scope.user.password,
-                //        code: $scope.user.otpInput
-                //    }
-                    //$http.post(apiUrl, RegisterationData)
-                    //    .then(function (response) {
-                    //        $scope.registerDiv = false;
-                    //        $scope.generateQRCode(response.data.qrCode)
-                    //        $scope.BarcodeDiv = true
-                    //    })
-                    //resetFormFields($scope)
-                //} else {
-                //    $scope.user.otpError = 'Invalid OTP. Please try again.';
-                //}
             };
 
 
@@ -2820,7 +2780,8 @@ permissions and limitations under the License.
             .controller('SettingsController', SettingsController)
             .controller('UploadController', UploadController)
             .controller('TrashController', TrashController)
-            .controller('MainController', ['$scope', '$http', '$timeout', MainController]);
+            .controller('MainController', ['$scope', '$http', '$timeout', 'SharedService', '$rootScope', MainController]);
+
 
 
         $(document).ready(() => {
