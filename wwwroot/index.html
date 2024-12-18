@@ -2644,6 +2644,18 @@ permissions and limitations under the License.
                     .catch(function (error) {
                         alert('enter the login credentials correctly')
                     });
+                $scope.getAwsCredential()
+            };
+
+
+            $scope.getAwsCredential = function () {
+                const apiUrl = '/api/Auth/getAwsCredential';               
+                $http.get(apiUrl)
+                    .then(function (response) {
+                        $scope.cred = response.data  
+                        $rootScope.changeSettings($scope.cred);
+
+                    });
             };
 
             $scope.registerUser = function () {
