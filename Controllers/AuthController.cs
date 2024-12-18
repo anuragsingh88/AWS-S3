@@ -98,20 +98,36 @@ namespace AWS_S3.Controllers
             await _db.SaveChangesAsync();
         }
 
-        [HttpGet("getAwsCredential/{isAdmin:bool}")]
-        public async Task<IActionResult> GetAwsCredential(bool isAdmin)
+        [HttpGet("getAwsCredential")]
+        public async Task<IActionResult> GetAwsCredential()
         {
-            if (!isAdmin)
-                throw new Exception("Secret not found");
 
-            var res = await _db.AWSConfigurations.FirstOrDefaultAsync();
-
-            var awsConfig = new AWSConfigurationViewModel
+            var res = await _db.AWSConfigurations.OrderByDescending(x => x.ID).FirstOrDefaultAsync();
+            dynamic awsConfig = new
             {
-                SecretAccessKey = TrackUser.Decrypt(res.SecretAccessKey),
-                AccessKeyID = TrackUser.Decrypt(res.AccessKeyID),
-                Bucket = res.Bucket,
-                Region = res.Region
+                auth = "auth",
+                region = "",
+                bucket = "bedrock-qnabot",
+                entered_bucket = "bedrock-qnabot",
+                selected_bucket = "",
+                view = "folder",
+                delimiter = "/",
+                prefix = "",
+                mfa = new
+                {
+                    use = "no",
+                    code = ""
+                },
+                cred = new
+                {
+                    accessKeyId = TrackUser.Decrypt(res.AccessKeyID),
+                    secretAccessKey = TrackUser.Decrypt(res.SecretAccessKey),
+                    sessionToken = "",
+                    region = ""
+                },
+                stscred = (object)null,
+                buckets = new[] { "bedrock-qnabot" }
+
             };
             return Ok(awsConfig);
         }
