@@ -76,7 +76,6 @@ permissions and limitations under the License.
                 .form-control {
                     border-radius: 5px;
                     border: 1px solid #ccc;
-                    padding: 10px;
                 }
 
                 .form-group small {
@@ -471,7 +470,7 @@ permissions and limitations under the License.
                     </small>
                 </div>
                 <div>
-                    <button type="submit" ng-disabled="registrationForm.$invalid || isSubmitting" class="btn btn-primary btn-block">Register</button>
+                    <button type="submit" ng-disabled="registrationForm.$invalid" class="btn btn-primary btn-block">Register</button>
                 </div>
             </form>
         </div>
@@ -501,9 +500,15 @@ permissions and limitations under the License.
                 </button>
 
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-evenly">
-                <p style="font-size: xxx-large;">Scan this QR Code:</p>
-                <img style="height:235px" ng-src="{{ qrcodeImage }}" alt="QR Code" />
+            <div style="display:flex;align-items:center;justify-content:space-evenly;flex-direction: row;">
+                <div>
+                    <p style="font-size: xxx-large;">Scan this QR Code to log-in:</p>
+                    <p style="font-size: x-large;margin-left: 10%;">(it's mandatory to scan the code to log-in)</p>
+                </div>
+                <div>
+                    <img style="height:235px" ng-src="{{ qrcodeImage }}" alt="QR Code" />
+                </div>
+
 
             </div>
             <!--<div>
@@ -1116,7 +1121,9 @@ permissions and limitations under the License.
                                         <span id="bucket-loader" style="cursor: pointer;" class="btn fa fa-sync fa-2x"
                                               ng-hide="!view.settings" ng-click="refresh()" title="Refresh"></span>
                                         <!--<span id="bucket-settings" style="cursor: pointer;" class="btn fa fa-cog fa-2x"
-                                              title="Settings" data-target="#SettingsModal" data-toggle="modal"></span>-->
+                                           title="Settings" data-target="#SettingsModal" data-toggle="modal"></span>-->
+                                            <span id="bucket-settings" style="cursor: pointer;" class="btn fa fa-user fa-2x"
+                                            title="log-out" data-toggle="modal"></span>
                                     </div>
                                     <!-- Record count -->
                                     <div class="btn-group" ng-hide="!view.settings || view.keys_selected.length > 0">
@@ -1298,6 +1305,8 @@ permissions and limitations under the License.
             return path.endsWith('/');
         }
 
+       
+
         function stripLeadTrailSlash(s) {
             return s.replace(/^\/+/g, '').replace(/\/+$/g, '');
         }
@@ -1372,6 +1381,8 @@ permissions and limitations under the License.
                                 }
                             });
                         }
+
+                        const token = sessionStorage.getItem('authToken');
                     });
                 } else {
                     $rootScope.$broadcast('broadcastChangeSettings', { settings });
@@ -1443,6 +1454,7 @@ permissions and limitations under the License.
             };
 
             return shared;
+
         }
 
         //
@@ -2615,13 +2627,16 @@ permissions and limitations under the License.
             });
         }
 
-        MainController.$inject = ['$scope', '$http', '$timeout', '$rootScope', 'SharedService'];
-        function MainController($scope, $http, $timeout, $rootScope, SharedService) {
+        MainController.$inject = ['$scope', '$http', '$timeout', '$rootScope', 'SharedService', '$window'];
+        function MainController($scope, $http, $timeout, $rootScope, SharedService, $window) {
              $scope.showDiv = true;
             $scope.activeDiv = false;
             $scope.registerDiv = false;
             $('#SettingsModal').modal('hide');
 
+            $scope.$on('$viewContentLoaded', function () {
+                $scope.login(); // Call the login function after the view has loaded
+            });
 
             $scope.login = function () {
                 const apiUrl = '/api/Auth/Login';
@@ -2639,16 +2654,18 @@ permissions and limitations under the License.
                         $scope.showDiv = !$scope.showDiv;
                         startTimer($scope)
                         $scope.activeDiv = true
+                        $scope.getAwsCredential()
                         console.log('Login successful:', response.data);
                     })
                     .catch(function (error) {
                         alert('enter the login credentials correctly')
                     });
-                $scope.getAwsCredential()
             };
 
 
             $scope.getAwsCredential = function () {
+              
+
                 const apiUrl = '/api/Auth/getAwsCredential';               
                 $http.get(apiUrl)
                     .then(function (response) {
@@ -2656,6 +2673,8 @@ permissions and limitations under the License.
                         $rootScope.changeSettings($scope.cred);
 
                     });
+
+                const token = sessionStorage.getItem('authToken');
             };
 
             $scope.registerUser = function () {
@@ -2671,10 +2690,17 @@ permissions and limitations under the License.
                     const apiUrl = '/api/Auth/register';
                     $http.post(apiUrl, RegisterationData)
                         .then(function (response) {
-                            $scope.registerDiv = false;
-                            $scope.generateQRCode(response.data.qrCode);
-                            $scope.BarcodeDiv = true;
-                            alert("User registered successfully! Kindly scan the code.");
+                            if (response.data?.qrCode) {
+                                $scope.registerDiv = false;
+                                $scope.generateQRCode(response.data.qrCode);
+                                $scope.BarcodeDiv = true;
+                                alert("User registered successfully! Kindly scan the code.");
+                            }
+                            else {
+                                $scope.isButtonDisabled = true;
+                                alert("You have already added 5 users kindly contact the administration")
+                               
+                            }
                         })
                         .catch(function (error) {
                             if (error.status === 400) {
@@ -2684,6 +2710,7 @@ permissions and limitations under the License.
                                 alert("An unexpected error occurred: " + error.statusText);
                             }
                         });
+                    $scope.resetFormFields()
                 }
                 else {
                     alert('Please fill out the form correctly')
@@ -2754,16 +2781,35 @@ permissions and limitations under the License.
          $scope.resetFormFields = function() {
             $scope.user.email = '';
             $scope.user.password = '';
+            $scope.user.otpInput = ''
             $scope.registrationForm.email.$setPristine();
-            $scope.registrationForm.email.$setUntouched();
+             $scope.registrationForm.email.$setUntouched();
+             $scope.registrationForm.password.$setPristine();
+             $scope.registrationForm.password.$setUntouched(); 
         }
 
             $scope.$on('$viewContentLoaded', function () {
-                $scope.resetFormFields();
+            $scope.resetFormFields();
             });
+
+            document.getElementById('bucket-settings').addEventListener('click', function () {
+                yourMethod();
+
+            });
+            function yourMethod() {
+                $timeout(function () {
+                    $scope.activeDiv = false;
+                    $scope.showDiv = true;
+                    $scope.resetFormFields();
+                });
+                //$scope.activeDiv = false;
+                //$scope.resetFormFields()
+                // Add your custom code for the button click here
+            }
+
         }
 
-
+            
 
 
         // Create Angular module and attach factory and controllers
@@ -2780,7 +2826,7 @@ permissions and limitations under the License.
             .controller('SettingsController', SettingsController)
             .controller('UploadController', UploadController)
             .controller('TrashController', TrashController)
-            .controller('MainController', ['$scope', '$http', '$timeout', 'SharedService', '$rootScope', MainController]);
+            .controller('MainController', ['$scope', '$http', '$timeout', 'SharedService', '$rootScope','$window' ,MainController]);
 
 
 

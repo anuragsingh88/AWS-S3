@@ -23,27 +23,32 @@ namespace AWS_S3.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var appuserID = _db.ApplicationUsers.OrderByDescending(x => x.AppUserID).Select(x => x.AppUserID).FirstOrDefault();
-            appuserID = (appuserID == null || appuserID == 0) ? 1 : appuserID + 1;
-            var user = new ApplicationUser
+            var userCount = _db.ApplicationUsers.ToList();
+            if (userCount.Count <= 5)
             {
-                UserName = model.Email,
-                Email = model.Email,
-                CreatedBy = TrackUser.AppUserID(),
-                CreatedDateTime = DateTimeOffset.Now,
-                AppUserID = appuserID
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
+                var appuserID = _db.ApplicationUsers.OrderByDescending(x => x.AppUserID).Select(x => x.AppUserID).FirstOrDefault();
+                appuserID = (appuserID == null || appuserID == 0) ? 1 : appuserID + 1;
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    CreatedBy = TrackUser.AppUserID(),
+                    CreatedDateTime = DateTimeOffset.Now,
+                    AppUserID = appuserID
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                if (!result.Succeeded)
+                    return BadRequest(result.Errors);
 
-            string secretKey = TrackUser.GenerateSecretKey();
-            string qrCode = TrackUser.GenerateQrCode(secretKey, model.Email, "aws-s3");
-            user.SecretKey = secretKey;
-            user.Is2FAEnabled = true;
-            _db.SaveChanges();
-            return Ok(new { SecretKey = secretKey, QrCode = qrCode });
+                string secretKey = TrackUser.GenerateSecretKey();
+                string qrCode = TrackUser.GenerateQrCode(secretKey, model.Email, "aws-s3");
+                user.SecretKey = secretKey;
+                user.Is2FAEnabled = true;
+                _db.SaveChanges();
+                return Ok(new { SecretKey = secretKey, QrCode = qrCode });
+            }
+            return Ok(false);
         }
 
         [HttpPost("login")]

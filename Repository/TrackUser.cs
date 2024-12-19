@@ -41,7 +41,7 @@ namespace AWS_S3.Repository
         public static bool ValidateTOTP(string secretKey, string userInputCode)
         {
             var otp = new Totp(Base32Encoding.ToBytes(secretKey));
-            return otp.VerifyTotp(userInputCode, out _, new VerificationWindow(2,2));
+            return otp.VerifyTotp(userInputCode, out _, new VerificationWindow(10,10));
         }
 
         #region Encrypt/Decrypt
